@@ -18,22 +18,23 @@ A classic **Tetris game** built using **Java and OOP** principles. It features *
 ## 🎮 Controls
 | Key | Action |
 |-----|--------|
-| `A` / `Left Arrow` | Move Left |
-| `D` / `Right Arrow` | Move Right |
-| `S` / `Down Arrow` | Move Down |
-| `W` / `Up Arrow` | Rotate |
-| `SPACE` | Hard Drop |
-| `P` | Pause |
+| `A` / | Move Left |
+| `D` / | Move Right |
+| `S` / | Move Down |
+| `W` / | Rotate |
+| `Space` | Pause |
 
 ## 📜 Game Rules
 - A Tetromino spawns at the top.
 - Move & rotate before it lands.
 - Clear full rows to earn points.
-- The game speeds up as you progress.
 - **Game Over** when blocks reach the top.
 
-## 🏆 Scoring
-- **1 Line** → 100 points  
+## 🏆 Scoring & Level
+- **1 Line** → 100 points 
+- **10 rows** → + 1 level 
+- **each level** → increase speed
+ 
 
 ## 🔊 Sound & Music
 🎵 Background music  
