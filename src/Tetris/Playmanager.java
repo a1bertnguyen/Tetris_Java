@@ -7,6 +7,9 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.lang.module.FindException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 import java.util.logging.Level;
 
@@ -146,67 +149,86 @@ public class Playmanager {
     }
 
     private void checkDelete() {
+        final int NUMBER_OF_COLUMNS = WIDTH / Block.Size;
         ArrayList<Integer> rowsToDelete = new ArrayList<>();
-        int lineCount = 0;
-
-        // Kiểm tra từng hàng từ dưới lên trên
-        for (int y = bottom_y - Block.Size; y >= top_y; y -= Block.Size) {
-            int blockCount = 0; // Reset block count mỗi hàng mới
-
-            // Đếm số block trong hàng hiện tại
-            for (int i = 0; i < staticBlocks.size(); i++) {
-                if (staticBlocks.get(i).y == y) {
-                    blockCount++;
-                }
-            }
-
-            // Nếu hàng đầy đủ 12 block, đánh dấu để xóa
-            if (blockCount == 12) {
-                rowsToDelete.add(y);
-                effectCounterOn = true;
-                effectY.add(y);
-                GamePanel.se.play(1, false);
+    
+        // Count the number of blocks in each row
+        HashMap<Integer, Integer> rowBlockCount = new HashMap<>();
+        for (int index = 0; index < staticBlocks.size(); index++) {
+            Block block = staticBlocks.get(index);
+            int rowPosition = block.y;
+    
+            if (rowBlockCount.containsKey(rowPosition)) {
+                int currentCount = rowBlockCount.get(rowPosition);
+                rowBlockCount.put(rowPosition, currentCount + 1);
+            } else {
+                rowBlockCount.put(rowPosition, 1);
             }
         }
-
-        // Xóa tất cả các hàng được đánh dấu (cách tối ưu hơn)
-        ArrayList<Block> blocksToKeep = new ArrayList<>();
-        for (int i = 0; i < staticBlocks.size(); i++) {
-            boolean shouldDelete = false;
-            for (int row : rowsToDelete) {
-                if (staticBlocks.get(i).y == row) {
-                    shouldDelete = true;
-                    break;
-                }
-            }
-            if (!shouldDelete) {
-                blocksToKeep.add(staticBlocks.get(i));
+    
+        // Identify full rows that need to be deleted
+        for (Map.Entry<Integer, Integer> entry : rowBlockCount.entrySet()) {
+            int rowPosition = entry.getKey();
+            int blockCount = entry.getValue();
+    
+            if (blockCount == NUMBER_OF_COLUMNS) {
+                rowsToDelete.add(rowPosition);
             }
         }
+    
+        // If no rows need to be deleted, return immediately
+        if (rowsToDelete.isEmpty()) {
+            return;
+        }
+    
+        // Play delete effect and sound
+        effectCounterOn = true;
+        effectY.addAll(rowsToDelete);
+        GamePanel.se.play(1, false);
+    
+        // Sort deleted rows in ascending order (important for shifting)
+        Collections.sort(rowsToDelete);
+    
+        // Remove blocks in deleted rows
+        ArrayList<Block> remainingBlocks = new ArrayList<>();
+        for (int index = 0; index < staticBlocks.size(); index++) {
+            Block block = staticBlocks.get(index);
+            if (!rowsToDelete.contains(block.y)) {
+                remainingBlocks.add(block);
+            }
+        }
+    
+        // Shift down blocks above deleted rows
+        int rowsDeletedBelow = 0;
+        for (int rowIndex = 0; rowIndex < rowsToDelete.size(); rowIndex++) {
+            int deletedRow = rowsToDelete.get(rowIndex);
+    
+            for (int blockIndex = 0; blockIndex < remainingBlocks.size(); blockIndex++) {
+                Block block = remainingBlocks.get(blockIndex);
+    
+                if (block.y < deletedRow) {
+                    block.y += Block.Size;  // Move block down by one row
+                }
+            }
+            rowsDeletedBelow++; // Track how many rows have been removed
+        }
+    
+        // Update staticBlocks with only the remaining blocks
         staticBlocks.clear();
-        staticBlocks.addAll(blocksToKeep);
-
-        // Dịch chuyển tất cả các block phía trên xuống
-        for (int i = 0; i < rowsToDelete.size(); i++) {
-            int row = rowsToDelete.get(i);
-
-            for (int j = 0; j < staticBlocks.size(); j++) {
-                Block block = staticBlocks.get(j);
-
-                if (block.y < row) {
-                    block.y += Block.Size;
-                }
-            }
-        }
-
-        // Add the score and level
-        line += rowsToDelete.size();
-        score += rowsToDelete.size() * 100;
+        staticBlocks.addAll(remainingBlocks);
+    
+        // Update score and level
+        int numberOfClearedLines = rowsToDelete.size();
+        line += numberOfClearedLines;
+        score += numberOfClearedLines * 100;
+    
         if (line % 10 == 0) {
             level++;
-            dropInterval = Math.max(1, (int) (dropInterval * 0.9)); // Giảm tốc độ rơi 10% mỗi cấp
+            dropInterval = Math.max(1, (int) (dropInterval * 0.9)); // Reduce speed by 10% per level
         }
     }
+    
+
 
     public void draw(Graphics2D g2) {
         // Draw play area
