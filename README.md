@@ -1,22 +1,46 @@
-<<<<<<< HEAD
-# OOP_Test
-=======
-## Getting Started
+# Tetris Game - Java OOP
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+## 🎮 Overview
+A classic **Tetris game** built using **Java and OOP** principles. It features **Tetromino movement, line clearing, scoring, and sound effects**.
 
-## Folder Structure
+## 🚀 Features
+✅ Move, Rotate, and Drop Tetrominoes  
+✅ Auto Drop & Collision Handling  
+✅ Line Clearing & Scoring System  
+✅ Game Over Detection  
+✅ Background Music & Sound Effects  
 
-The workspace contains two folders by default, where:
+## 🛠 Technologies
+- **Java** (OOP, Swing, AWT)
+- **KeyListener** (User Input)
+- **Multithreading** (Game Loop)
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+## 🎮 Controls
+| Key | Action |
+|-----|--------|
+| `A` / `Left Arrow` | Move Left |
+| `D` / `Right Arrow` | Move Right |
+| `S` / `Down Arrow` | Move Down |
+| `W` / `Up Arrow` | Rotate |
+| `SPACE` | Hard Drop |
+| `P` | Pause |
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
+## 📜 Game Rules
+- A Tetromino spawns at the top.
+- Move & rotate before it lands.
+- Clear full rows to earn points.
+- The game speeds up as you progress.
+- **Game Over** when blocks reach the top.
 
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
+## 🏆 Scoring
+- **1 Line** → 100 points  
 
-## Dependency Management
+## 🔊 Sound & Music
+🎵 Background music  
+🔊 Sound effects for movement, clearing, and Game Over  
 
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
->>>>>>> cb314d5 (Frist commit)
+
+## 🤝 Contributors
+- **Developer:** A1bert  
+
+🚀 Enjoy playing! Feel free to contribute! 🎮
