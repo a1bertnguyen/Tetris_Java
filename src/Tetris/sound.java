@@ -14,11 +14,11 @@ public class sound {
     Clip musicClip;
     URL url [] =new URL[10];
     public sound() {
-        url[0] = getClass().getResource("");
-        url[1] = getClass().getResource("");
-        url[2] = getClass().getResource("");
-        url[3] = getClass().getResource("");
-        url[4] = getClass().getResource("");
+        url[0] = getClass().getResource("/while-ladayrith-active.wav");
+        url[1] = getClass().getResource("/delete line.wav");
+        url[2] = getClass().getResource("/gameover.wav");
+        url[3] = getClass().getResource("/rotation.wav");
+        url[4] = getClass().getResource("/touch floor.wav");
 
 
     }
