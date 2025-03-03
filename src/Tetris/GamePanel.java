@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.nio.channels.Pipe.SourceChannel;
 
 public class GamePanel extends JPanel implements Runnable {
     public static final int WIDTH = 1280;
@@ -14,6 +15,9 @@ public class GamePanel extends JPanel implements Runnable {
     final int FPS = 160;
     Thread gameThread;
     Playmanager pm;
+    public static sound music = new sound();
+    public static sound se =new sound();
+
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
@@ -29,6 +33,9 @@ public class GamePanel extends JPanel implements Runnable {
     public void launchGame() {
         gameThread = new Thread(this);
         gameThread.start();
+
+        music.play(0, true);
+        music.loop();
     }
 
     @Override

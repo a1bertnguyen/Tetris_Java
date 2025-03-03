@@ -124,6 +124,8 @@ public class Playmanager {
                 // so it's xy are the same with the nextMino's
 
                 Gameover = true;
+                GamePanel.music.stop();
+                GamePanel.se.play(2, false);
 
             }
 
@@ -163,6 +165,7 @@ public class Playmanager {
                 rowsToDelete.add(y);
                 effectCounterOn = true;
                 effectY.add(y);
+                GamePanel.se.play(1, false);
             }
         }
 

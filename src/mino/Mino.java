@@ -3,6 +3,7 @@ package mino;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
+import Tetris.GamePanel;
 import Tetris.KeyHandler;
 import Tetris.Playmanager;
 
@@ -164,6 +165,7 @@ public class Mino {
                     break;
             }
             KeyHandler.upPressed = false;
+            GamePanel.se.play(3, false);
 
         }
         checkMovementCollision();
@@ -204,6 +206,9 @@ public class Mino {
             KeyHandler.rightPressed = false;
         }
         if (bottomCollision) {
+            if (deactivating ==false){
+                GamePanel.se.play(4, false);
+            }
             deactivating = true;
         } else {
             autoDropCouter++;

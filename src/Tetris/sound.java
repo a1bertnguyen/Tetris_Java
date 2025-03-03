@@ -1,20 +1,66 @@
 package Tetris;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineEvent;
+import javax.sound.sampled.LineListener;
+import javax.sound.sampled.LineEvent.Type;
+
 import java.net.URL;
 
 public class sound {
 
-    Clip musClip;
+    Clip musicClip;
     URL url [] =new URL[10];
+    public sound() {
+        url[0] = getClass().getResource("");
+        url[1] = getClass().getResource("");
+        url[2] = getClass().getResource("");
+        url[3] = getClass().getResource("");
+        url[4] = getClass().getResource("");
 
-    public Sound(){
 
-        url [0]
+    }
+    public void play( int i, boolean music){
+        try {
+
+            AudioInputStream ais = AudioSystem.getAudioInputStream(url [i]);
+            Clip clip = AudioSystem.getClip();
+            if (music){
+                musicClip =clip;
+            }
+
+            clip.open(ais);
+
+            clip.addLineListener(new LineListener() {
+                @Override
+                public void update (LineEvent event){
+                    if ( event.getType() == Type.STOP){
+
+                        clip.close();
+                    }
+                }
+            });
+
+            ais.close();
+            clip.start();
+        }catch(Exception e){
+
+        }
 
     }
 
+
+    public void loop(){
+        musicClip.loop(Clip.LOOP_CONTINUOUSLY);
     }
+    public void stop (){
+        musicClip.stop();;
+        musicClip.close();
+    }
+
+}
 
     
 
