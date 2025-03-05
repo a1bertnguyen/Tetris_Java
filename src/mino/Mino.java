@@ -48,17 +48,13 @@ public class Mino {
         }
     }
 
-    public void getDirection1() {
-    }
+    public void getDirection1() {}
 
-    public void getDirection2() {
-    }
+    public void getDirection2() {}
 
-    public void getDirection3() {
-    }
+    public void getDirection3() {}
 
-    public void getDirection4() {
-    }
+    public void getDirection4() {}
 
     public void checkMovementCollision() {
         leftCollision = false;
